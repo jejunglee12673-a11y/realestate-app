@@ -1,16 +1,19 @@
-// 物件情報を表示するカードコンポーネント
-export default function PropertyCard({ property }) {
-  const { name, rent, area, size, rooms } = property
+// 物件情報を表示するカード。編集・削除ボタンを持つ
+export default function PropertyCard({ property, onEdit, onDelete }) {
+  const { name, rent, area, layout } = property
 
   return (
     <div className="property-card">
       <div className="property-card-header">
-        <span className="property-rooms">{rooms}</span>
+        <span className="property-rooms">{layout}</span>
+        <div className="property-actions">
+          <button className="btn-edit" onClick={onEdit}>編集</button>
+          <button className="btn-delete" onClick={onDelete}>削除</button>
+        </div>
       </div>
       <h2 className="property-name">{name}</h2>
       <div className="property-details">
         <p className="property-area">📍 {area}</p>
-        <p className="property-size">📐 {size}</p>
       </div>
       <p className="property-rent">
         <span className="rent-amount">{rent.toLocaleString()}</span>
