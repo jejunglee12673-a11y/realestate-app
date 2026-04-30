@@ -64,6 +64,11 @@ npm test
 - セキュリティ: ユーザー入力は必ずバリデーションする
 - エラーハンドリングは外部境界（API・ユーザー入力）のみ
 
+## デプロイ情報
+
+- 本番URL：https://realestate-app-sage.vercel.app/
+- Supabaseプロジェクト名：realestate-app
+
 ## ディレクトリ構成（予定）
 
 ```
