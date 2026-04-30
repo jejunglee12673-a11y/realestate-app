@@ -1,0 +1,66 @@
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { supabase } from '../lib/supabase'
+
+export default function LoginPage() {
+  const navigate = useNavigate()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  async function handleLogin(e) {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+
+    // Supabaseのメール+パスワード認証でログインする
+    const { error } = await supabase.auth.signInWithPassword({ email, password })
+
+    if (error) {
+      setError('メールアドレスまたはパスワードが正しくありません')
+    } else {
+      navigate('/')
+    }
+    setLoading(false)
+  }
+
+  return (
+    <div className="auth-container">
+      <div className="auth-card">
+        <h1 className="auth-title">ログイン</h1>
+        <form onSubmit={handleLogin} className="auth-form">
+          <div className="form-group">
+            <label htmlFor="email">メールアドレス</label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="example@mail.com"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">パスワード</label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="パスワードを入力"
+              required
+            />
+          </div>
+          {error && <p className="error-message">{error}</p>}
+          <button type="submit" className="btn-primary" disabled={loading}>
+            {loading ? 'ログイン中...' : 'ログイン'}
+          </button>
+        </form>
+        <p className="auth-link">
+          アカウントをお持ちでない方は<Link to="/register">会員登録</Link>
+        </p>
+      </div>
+    </div>
+  )
+}
